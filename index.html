@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+  <!--
+    WARNING! Make sure that you match all Quasar related
+    tags to the same version! (Below it's "@1.18.10")
+  -->
+
+  <head>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900|Material+Icons" rel="stylesheet" type="text/css">
+    <link href="https://cdn.jsdelivr.net/npm/quasar@1.18.10/dist/quasar.min.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" type="text/css" href="styles.css">
+
+     
+
+  </head>
+
+  <body class="background">
+    <!--  Add the following at the end of your body tag -->
+
+    
+
+    
+    <div id="q-app">
+    
+
+     <div class="row justify-center">
+    <div class="col-md-8">
+
+      <div class="q-pa-md">
+    <q-table
+      title="Treats"
+      :data="data"
+      :columns="columns"
+      row-key="name"
+    />
+     </div>
+
+     <div class="col-3">
+     <q-btn class = "full-widt text-h6" href="insertar.html"> Crear <q-btn>
+     </div>
+
+    </div>
+    </div>
+    
+
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@^2.0.0/dist/vue.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/quasar@1.18.10/dist/quasar.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/quasar@1.18.10/dist/lang/es.umd.min.js"></script>
+    
+    <script>
+      Quasar.lang.set(Quasar.lang.es)
+
+      /*
+        Example kicking off the UI. Obviously, adapt this to your specific needs.
+        Assumes you have a <div id="q-app"></div> in your <body> above
+       */
+
+      
+
+      new Vue({
+  el: '#q-app',
+  data () {
+    return {
+      columns: [
+        {
+          name: 'precio',
+          required: true,
+          label: 'Precio',
+          align: 'left',
+          field: row => row.precio,
+          format: val => `${val}`,
+          sortable: true
+        },
+        { name: 'simbologia', align: 'center', label: 'simbologia', field: 'simbologia', sortable: true },
+        { name: 'imagen', label: 'imagen', field: 'imagen', sortable: true },
+        { name: 'nombre', label: 'nombre', field: 'nombre' }
+        
+      ],
+     
+       
+      data : []
+
+
+    }
+  },
+  mounted(){
+
+    fetch("https://crudorinoco.herokuapp.com/criptomonedas").then(res =>  res.json())
+                                                .then(res => this.data = res);
+
+   
+
+  }
+   
+})
+      
+    </script>
+  </body>
+</html>

@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+  <!--
+    WARNING! Make sure that you match all Quasar related
+    tags to the same version! (Below it's "@1.18.10")
+  -->
+
+  <head>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900|Material+Icons" rel="stylesheet" type="text/css">
+    <link href="https://cdn.jsdelivr.net/npm/quasar@1.18.10/dist/quasar.min.css" rel="stylesheet" type="text/css">
+
+
+    <style type="text/css">
+    
+    .background{
+
+         background: background: #2b5876;  /* fallback for old browsers */
+         background: -webkit-linear-gradient(to right, #4e4376, #2b5876);  /* Chrome 10-25, Safari 5.1-6 */
+         background: linear-gradient(to right, #4e4376, #2b5876); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+        }
+  </style>
+
+  </head>
+
+  <body class="background">
+   
+    
+    <script src="https://cdn.jsdelivr.net/npm/vue@^2.0.0/dist/vue.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/quasar@1.18.10/dist/quasar.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    
+
+  
+
+
+   
+        
+    <div id="q-app">
+
+
+
+      <div class="q-pa-md row items-start q-gutter-md justify-center">
+        <q-card class="my-card" >
+          <q-card-section>
+
+      <div class="q-pa-md" style="max-width: 400px">
+
+        <q-form
+          @submit="onSubmit"
+          @reset="onReset"
+          class="q-gutter-md"
+        >
+          <q-input
+            filled
+            v-model="precio"
+            type="number"
+            label="Precio"
+            hint=""
+            lazy-rules
+            :rules="[
+              val => val !== null && val !== '' || 'Please type your age',
+              val => val > 0 && val < 900000000000 || 'Please type a real age'
+            ]"
+            
+          ></q-input>
+    
+          <q-input
+            filled
+            v-model="simbologia"
+            label="Simbologia"
+            lazy-rules
+            :rules="[ val => val && val.length > 0 || 'Please type something']"
+            
+          ></q-input>
+          <q-input
+            filled
+            v-model="imagen"
+            label="Imagen"
+            hint=""
+            lazy-rules
+            :rules="[ val => val && val.length > 0 || 'Please type something']"
+          ></q-input>
+          <q-input
+            filled
+            v-model="nombre"
+            label="Nombre"
+            hint=""
+            lazy-rules
+            :rules="[ val => val && val.length > 0 || 'Please type something']"
+          ></q-input>
+    
+    
+          <div>
+            <q-btn label="Submit" id="button" type="submit" color="primary"></q-btn>
+            <q-btn label="Reset" type="reset" color="primary" flat class="q-ml-sm"></q-btn>
+          </div>
+        </q-form>
+    
+      </q-card-section>
+    </q-card>
+
+</div>
+      </div>
+    </div>
+
+    <script>
+     
+
+
+     new Vue({
+    el: '#q-app',
+    data () {
+    return {
+      precio: null,
+      simbologia: null,
+      imagen: null,
+      nombre: null,
+
+      accept: false
+    }
+  },
+
+  methods: {
+    onSubmit () {
+      
+        this.$q.notify({
+          color: 'green-4',
+          textColor: 'white',
+          icon: 'cloud_done',
+          message: 'Submitted'
+        });
+        console.log(this.name);
+        console.log(this.age);
+
+        let data = new URLSearchParams({
+           
+        "precio" : this.precio,
+        "simbologia"  : this.simbologia,
+        "imagen" : this.imagen,
+        "nombre" : this.nombre
+
+
+        });
+
+        //peticion post -------------------------------------------------
+        fetch("https://crudorinoco.herokuapp.com/criptomonedas",{
+      
+        method : "POST",
+       
+
+
+         //especifica el tipo de dato a recibir 
+         headers : {'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'},
+
+         //headers: {"Content-type" : "application/json"}
+         body : data,
+           
+
+       }).then((res)=>{console.log(res)});
+
+
+
+      //  axios({
+      //  method: 'post',
+      //  url: 'https://crudorinoco.herokuapp.com/criptomonedas',
+      //  data: {
+      //  precio: 2,
+      //  simbologia: "Flintstone",
+      //  imagen: "ad",
+      //  nombre : "asd"
+      //  }
+      // }).then(function (response) {
+      //   console.log(response);
+      // });
+       
+   
+    },
+
+    onReset () {
+      this.name = null
+      this.age = null
+      this.accept = false
+    }
+  }
+})
+    </script>
+  </body>
+</html>
